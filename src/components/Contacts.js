@@ -1,83 +1,88 @@
 import React, { useState } from "react";
+import { GoogleMapa } from "./GoogleMapa";
 
 export const Contacts = () => {
-  const [formulario, setFormulario] = useState({
-    nombre: "",
-    telefono: "",
-    correo: "",
-    mensaje: ""
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: ""
   });
 
-  const [estadoEnvio, setEstadoEnvio] = useState("");
+  const [estado, setEstado] = useState("idle"); // idle, cargando, enviado, error
 
-  const manejarCambio = (e) => {
-    setFormulario({ ...formulario, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const manejarEnvio = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setEstadoEnvio("Enviando...");
+    setEstado("cargando");
 
     try {
-      const respuesta = await fetch("https://cv-backend-wks3.onrender.com/contact", {
+      const response = await fetch("https://cv-backend-wks3.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formulario)
+        body: JSON.stringify(form)
       });
 
-      if (respuesta.ok) {
-        setEstadoEnvio("¡Mensaje enviado correctamente!");
-        setFormulario({ nombre: "", telefono: "", correo: "", mensaje: "" });
+      if (response.ok) {
+        setEstado("enviado");
+        setForm({ name: "", phone: "", email: "", message: "" });
       } else {
-        setEstadoEnvio("Hubo un error al enviar el mensaje.");
+        setEstado("error");
       }
     } catch (error) {
-      setEstadoEnvio("Servidor no disponible. Inténtalo más tarde.");
       console.error(error);
+      setEstado("error");
     }
   };
 
   return (
     <div>
-      <h3>Formulario de Contacto</h3>
+      {/* <GoogleMapa /> */}
+      <h3>Formulario de contacto</h3>
 
-      <form className="contact_form flex flex-col gap-3" onSubmit={manejarEnvio}>
+      <form className="contact_form flex flex-col gap-3" onSubmit={handleSubmit}>
         <input
-          name="nombre"
+          name="name"
           placeholder="Nombre"
-          value={formulario.nombre}
-          onChange={manejarCambio}
+          value={form.name}
+          onChange={handleChange}
           required
         />
         <input
-          name="telefono"
+          name="phone"
           placeholder="Teléfono"
-          value={formulario.telefono}
-          onChange={manejarCambio}
+          value={form.phone}
+          onChange={handleChange}
         />
         <input
-          name="correo"
+          name="email"
           placeholder="Correo electrónico"
-          value={formulario.correo}
-          onChange={manejarCambio}
+          value={form.email}
+          onChange={handleChange}
           required
         />
         <textarea
-          name="mensaje"
+          name="message"
           placeholder="Mensaje"
-          value={formulario.mensaje}
-          onChange={manejarCambio}
+          value={form.message}
+          onChange={handleChange}
           required
         />
-        <button type="submit">Enviar</button>
+        <button type="submit" disabled={estado === "cargando"}>
+          {estado === "cargando" ? "Enviando..." : "Enviar"}
+        </button>
       </form>
 
-      {estadoEnvio && (
-        <p className="text-sm mt-2">
-          {estadoEnvio}
-        </p>
+      {estado === "enviado" && (
+        <p className="text-green-600 mt-2">Mensaje enviado con éxito.</p>
+      )}
+      {estado === "error" && (
+        <p className="text-red-600 mt-2">Hubo un error al enviar el mensaje.</p>
       )}
     </div>
   );
