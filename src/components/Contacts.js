@@ -1,77 +1,84 @@
 import React, { useState } from "react";
-import { GoogleMapa } from "./GoogleMapa";
 
 export const Contacts = () => {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: ""
+  const [formulario, setFormulario] = useState({
+    nombre: "",
+    telefono: "",
+    correo: "",
+    mensaje: ""
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [estadoEnvio, setEstadoEnvio] = useState("");
+
+  const manejarCambio = (e) => {
+    setFormulario({ ...formulario, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const manejarEnvio = async (e) => {
     e.preventDefault();
+    setEstadoEnvio("Enviando...");
 
     try {
-      const response = await fetch("https://cv-backend-wks3.onrender.com/contact", {
+      const respuesta = await fetch("https://cv-backend-wks3.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(formulario)
       });
 
-      if (response.ok) {
-        alert("Сообщение отправлено!");
-        setForm({ name: "", phone: "", email: "", message: "" }); // очистка формы
+      if (respuesta.ok) {
+        setEstadoEnvio("¡Mensaje enviado correctamente!");
+        setFormulario({ nombre: "", telefono: "", correo: "", mensaje: "" });
       } else {
-        alert("Ошибка при отправке сообщения.");
+        setEstadoEnvio("Hubo un error al enviar el mensaje.");
       }
     } catch (error) {
-      alert("Сервер недоступен. Проверь backend.");
+      setEstadoEnvio("Servidor no disponible. Inténtalo más tarde.");
       console.error(error);
     }
   };
 
   return (
     <div>
-      {/*<GoogleMapa />*/}
-      <h3>Formulario de contacto</h3>
+      <h3>Formulario de Contacto</h3>
 
-      <form className="contact_form flex flex-col gap-3" onSubmit={handleSubmit}>
+      <form className="contact_form flex flex-col gap-3" onSubmit={manejarEnvio}>
         <input
-          name="name"
-          placeholder="Имя"
-          value={form.name}
-          onChange={handleChange}
+          name="nombre"
+          placeholder="Nombre"
+          value={formulario.nombre}
+          onChange={manejarCambio}
           required
         />
         <input
-          name="phone"
-          placeholder="Телефон"
-          value={form.phone}
-          onChange={handleChange}
+          name="telefono"
+          placeholder="Teléfono"
+          value={formulario.telefono}
+          onChange={manejarCambio}
         />
         <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
+          name="correo"
+          placeholder="Correo electrónico"
+          value={formulario.correo}
+          onChange={manejarCambio}
           required
         />
         <textarea
-          name="message"
-          placeholder="Сообщение"
-          value={form.message}
-          onChange={handleChange}
+          name="mensaje"
+          placeholder="Mensaje"
+          value={formulario.mensaje}
+          onChange={manejarCambio}
           required
         />
-        <button type="submit">Отправить</button>
+        <button type="submit">Enviar</button>
       </form>
+
+      {estadoEnvio && (
+        <p className="text-sm mt-2">
+          {estadoEnvio}
+        </p>
+      )}
     </div>
   );
 };
