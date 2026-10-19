@@ -1,70 +1,48 @@
-/* import styles from "../styles/Resumen.module.scss";
- */import { IconEducation } from "./icons/IconEducation";
+import { IconEducation } from "./icons/IconEducation";
 import { IconExperience } from "./icons/IconExperience";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
+const Entry = ({ title, children }) => (
+  <div className="relative pl-6 pb-8 last:pb-0 border-l border-hover-blue/30">
+    <span className="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-hover-blue ring-4 ring-hover-blue/20"></span>
+    <h4 className="font-serif text-lg font-bold leading-snug">{title}</h4>
+    {children}
+  </div>
+);
+
+const Column = ({ icon, title, children }) => (
+  <section className="md:w-1/2 w-full">
+    <h3 className="section-title mt-0">
+      {icon}
+      {title}
+    </h3>
+    <div className="ml-2">{children}</div>
+  </section>
+);
 
 export const Resumen = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className=" md:w-1/2 px-4 w-full">
-        <h3 className="text-2xl font-Merriweather my-5 flex gap-3 items-center">
-          <IconEducation iconStyle="w-9 h-9  fill-[#0D86FF]" />{t("educacion")}
-        </h3>
-        <div className="w-full flex gap-3 items-center relative">
-          <div className="absolute -left-3  w-6 h-6 bg-gradient-to-t from-[#0d86ff1b] to-[#0d86ff5f] inline-block  rounded-[50%]"></div>
-          <h4 className="text-lg font-Merriweather my-5 first-letter:text-[#d9dfda] z-10">{t("cursos")}</h4>
-        </div>
-        <div>
-          <ul className=" list-disc ml-6 gap-4 mb-6">
-            <li className="mb-4">
-              {t("fecha_fp")}
-              <p className="pt-2">{t("texto_fp")}</p>
-            </li>
-            <li>
-              {t("fecha_rs")}
-              <p className="pt-2">{t("texto_rs")}</p>
-            </li>
+    <div className="flex flex-col md:flex-row gap-10">
+      <Column icon={<IconExperience iconStyle="w-8 h-8 fill-hover-blue" />} title={t("experiencia")}>
+        <Entry title="Soluciones Web 365 SL">
+          <p className="mt-1 text-gray-200">{t("sw365_puesto")}</p>
+          <p className="text-sm text-gray-400">{t("sw365_fecha")}</p>
+          <ul className="list-disc ml-5 mt-3 space-y-2 text-gray-200">
+            <li>{t("sw365_1")}</li>
+            <li>{t("sw365_2")}</li>
           </ul>
-        </div>
-        <div className="w-full flex gap-3 items-center relative mb-5">
-          <div className="absolute -left-3  w-6 h-6 bg-gradient-to-t from-[#0d86ff1b] to-[#0d86ff5f] inline-block  rounded-[50%]"></div>
-          <h4 className="text-lg font-Merriweather first-letter:text-[#d9dfda] z-10">{t("form_super")}</h4>
-        </div>
-        <div>
-          <ul className=" list-disc ml-6">
-            <li>
-              {t("fecha_aues")}
-              <p className="pt-2">{t("texto_aues")}</p>
-            </li>
-          </ul>
-        </div>
-      </div>
+        </Entry>
+      </Column>
 
-      <div className=" md:w-1/2 px-4 w-full">
-        <h3 className=" text-2xl font-Merriweather my-8 flex gap-3 items-center">
-          <IconExperience iconStyle="w-8 h-8  fill-[#0D86FF]" /> {t("experiencia")}
-        </h3>
-        <div className="w-full flex-col gap-3 items-center relative">
-          <div className="absolute -left-3  w-6 h-6 bg-gradient-to-t from-[#0d86ff1b] to-[#0d86ff5f] inline-block  rounded-[50%]"></div>
-          <h4 className="text-lg font-Merriweather my-5 first-letter:text-[#d9dfda] z-10">Grifenix</h4>
-          <p>{t("fecha_grif")}</p>
-        </div>
-        <div>
-          <p className="pt-2">{t("texto_grif")}</p>
-        </div>
-
-        <div className="w-full flex-col gap-3 items-center relative">
-          <div className="absolute -left-3  w-6 h-6 bg-gradient-to-t from-[#0d86ff1b] to-[#0d86ff5f] inline-block  rounded-[50%]"></div>
-          <h4 className="text-lg font-Merriweather my-5 first-letter:text-[#d9dfda] z-10">Sagajean</h4>
-          <p>{t("fecha_sag")}</p>
-        </div>
-        <div>
-          <p className="pt-2">{t("texto_sag")}</p>
-        </div>
-
-      </div>
+      <Column icon={<IconEducation iconStyle="w-8 h-8 fill-hover-blue" />} title={t("educacion")}>
+        <Entry title={t("fp_titulo")}>
+          <p className="mt-1 text-sm text-gray-400">{t("fp_fecha")}</p>
+        </Entry>
+        <Entry title={t("grado_titulo")}>
+          <p className="mt-1 text-sm text-gray-400">{t("grado_fecha")}</p>
+        </Entry>
+      </Column>
     </div>
   );
 };

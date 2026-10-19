@@ -1,17 +1,8 @@
+// En móvil: etiquetas en línea; desde md: dos columnas en zigzag.
 .column {
-  @apply flex-1;
+  @apply contents md:block md:flex-1;
 }
 .column > li {
-  @apply w-48 text-center py-2 bg-main-blue my-6 rounded-md m-auto hover:scale-110 transform transition-transform duration-300 ease-in-out even:translate-x-10 odd:-translate-x-10;
+  @apply px-3 py-2 text-center font-mono text-sm bg-main-blue rounded-lg transform transition-transform duration-300 ease-in-out hover:scale-110;
+  @apply md:w-48 md:py-2.5 md:my-4 md:mx-auto md:even:translate-x-10 md:odd:-translate-x-10;
 }
-
-.lenguages {
-  @apply flex flex-col bg-main-blue rounded-3xl p-6;
-}
-/* .lenguages>p {
-    @apply  py-1 px-14 bg-[#0080ff5d] rounded-md hover:scale-110 transform transition-transform duration-300 ease-in-out
-} */
-
-/* .lenguages>p{
-    @apply 
-} */

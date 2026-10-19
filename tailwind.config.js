@@ -1,27 +1,17 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       backgroundImage: {
-        'bg1': "url('/public/images/bg1.jpg')",
-        'bg2': "url('/public/images/bg2.jpg')",
-        'bg3': "url('/public/images/bg3.png')",
-        'bg4': "url('/public/images/bg4.jpg')",
-        'bg5': "url('/public/images/bg5.jpg')",
-        'bg6': "url('/public/images/bg6.jpg')"
-
-
+        bg5: "url('/public/images/bg5.jpg')",
       },
       fontFamily: {
-        "Merriweather": ["Merriweather", "serif"] ,
-        "Montserrat": ["Montserrat Alternates", "sans-serif"], 
-        "RobotoMono": ["Roboto Mono", "monospace"],
-      },
-      gridTemplateColumns: {
-        // Simple 16 column grid
-        13: "repeat(13, minmax(0, 1fr))",
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        serif: ["Merriweather", ...defaultTheme.fontFamily.serif],
+        mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono],
       },
       colors: {
         "main-blue": "#272333",

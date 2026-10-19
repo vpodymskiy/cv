@@ -1,76 +1,48 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import "./layout.css";
-import { useState } from "react";
-
-import { useTranslation } from 'react-i18next';
-
+import { useTranslation } from "react-i18next";
 
 export const Layout = () => {
-
-  const { t} = useTranslation();
-
+  const { t } = useTranslation();
+  const location = useLocation();
 
   const menu = [
     { url: "/", name: t("about") },
     { url: "/resumen", name: t("resumen") },
-    { url: "/portfolio", name: t("portafolio") },
-    /*{ url: "/translate", name: "translate" },*/
-
-    /*{ url: "/contacts", name: "Contactos"}*/
+    { url: "/portfolio", name: t("proyectos") },
+    { url: "/contacts", name: t("contacto") },
   ];
-
-  const handleMenuToggle = () => {
-    const screenWidth = window.innerWidth;
-    if(screenWidth>768) setMenuOpen(false);
-    else setMenuOpen(!menuOpen)
-  }
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const location = useLocation();
-  const pageName =
-    menu.find((item) => item.url === location.pathname)?.name || "";
+  const pageName = menu.find((item) => item.url === location.pathname)?.name || "";
 
   return (
-    <div>
-      <header className=" relative ">
-        <nav className={menuOpen ? "open" : "close"}>
-          <ul className=" ">
-            {menu.map((item) => (
-              <li key={item.url}>
-                <NavLink to={item.url} onClick={handleMenuToggle} className="text-gray-200 font-semibold">
-                  {item.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div>
-          <h1 className=" text-3xl font-sans font-bold leading-7 pt-8 ">
-            {pageName}
-            <div className="w-12 h-[5px] bg-blue-500 my-6 rounded"></div>
-          </h1>
-          <button onClick={handleMenuToggle}>
-            <div className="bg-blue-500 p-2 rounded-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-10 h-10 bg-blue-500 rounded-md"
+    <div className="relative">
+      <nav className="sticky top-3 z-30 -mx-2 pt-3 md:pt-0 md:mx-0 md:absolute md:top-0 md:-right-8">
+        <ul className="flex justify-between md:justify-start gap-1 md:gap-0 p-1 md:px-4 md:py-0 rounded-2xl md:rounded-3xl bg-main-blue md:bg-hover-blue shadow-xl">
+          {menu.map((item) => (
+            <li key={item.url} className="flex-1 md:flex-none">
+              <NavLink
+                to={item.url}
+                end
+                className={({ isActive }) =>
+                  `block text-center whitespace-nowrap text-[13px] sm:text-sm md:text-base px-2 sm:px-3 md:px-5 py-2.5 md:py-4 rounded-xl md:rounded-none font-semibold transition-colors ${
+                    isActive
+                      ? "bg-hover-blue text-white md:bg-transparent md:underline md:decoration-2 md:underline-offset-8"
+                      : "text-gray-300 md:text-blue-100/80 hover:text-white"
+                  }`
+                }
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
+                {item.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <header className="pt-5 md:pt-8">
+        <h1 className="mt-7 md:mt-0 text-3xl font-bold leading-tight">
+          {pageName}
+          <span className="block w-12 h-[5px] bg-hover-blue mt-4 mb-8 rounded"></span>
+        </h1>
       </header>
-      <main className="h-full">
+      <main className="fade-in" key={location.pathname}>
         <Outlet />
       </main>
     </div>

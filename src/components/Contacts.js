@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { GoogleMapa } from "./GoogleMapa";
+import { useTranslation } from "react-i18next";
 
 const API_URL = "https://cv-backend-wks3.onrender.com";
 const SLOW_AFTER_MS = 4000; // a partir de aquí avisamos de que el servidor se está despertando
 const TIMEOUT_MS = 90000; // Render puede tardar hasta ~1 min en despertar
 
 export const Contacts = () => {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const [estado, setEstado] = useState("idle"); // idle, cargando, enviado, error
@@ -51,9 +52,9 @@ export const Contacts = () => {
         method: "POST",
         signal: controller.signal,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(form),
       });
 
       if (response.ok) {
@@ -70,61 +71,77 @@ export const Contacts = () => {
     }
   };
 
+  const fields = [
+    { name: "name", type: "text", autoComplete: "name", required: true },
+    { name: "email", type: "email", autoComplete: "email", required: true },
+    { name: "phone", type: "tel", autoComplete: "tel", required: false },
+  ];
+  const labels = { name: "form_nombre", email: "form_email", phone: "form_telefono" };
+
   return (
     <div>
-      {/* <GoogleMapa /> */}
-      <h3>Formulario de contacto</h3>
+      <p className="text-lg leading-relaxed text-gray-200">{t("form_intro")}</p>
 
-      <form
-        className="contact_form flex flex-col gap-3"
-        onSubmit={handleSubmit}
-        onFocus={despertarServidor}
-      >
-        <input
-          name="name"
-          placeholder="Nombre"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="phone"
-          placeholder="Teléfono"
-          value={form.phone}
-          onChange={handleChange}
-        />
-        <input
-          name="email"
-          placeholder="Correo electrónico"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          name="message"
-          placeholder="Mensaje"
-          value={form.message}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" disabled={estado === "cargando"}>
-          {estado === "cargando" ? "Enviando..." : "Enviar"}
-        </button>
+      <form className="mt-8 grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit} onFocus={despertarServidor}>
+        {fields.map((f) => (
+          <label key={f.name} className={f.name === "phone" ? "sm:col-span-2" : ""}>
+            <span className="block mb-1.5 text-sm font-semibold text-gray-300">
+              {t(labels[f.name])}
+              {!f.required && <span className="font-normal text-gray-500"> · {t("form_opcional")}</span>}
+            </span>
+            <input
+              className="field"
+              name={f.name}
+              type={f.type}
+              autoComplete={f.autoComplete}
+              value={form[f.name]}
+              onChange={handleChange}
+              required={f.required}
+            />
+          </label>
+        ))}
+        <label className="sm:col-span-2">
+          <span className="block mb-1.5 text-sm font-semibold text-gray-300">{t("form_mensaje")}</span>
+          <textarea
+            className="field min-h-[140px] resize-y"
+            name="message"
+            value={form.message}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <div className="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4">
+          <button
+            type="submit"
+            disabled={estado === "cargando"}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-hover-blue px-8 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-500 disabled:opacity-60 disabled:cursor-wait"
+          >
+            {estado === "cargando" && (
+              <span
+                className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"
+                aria-hidden="true"
+              ></span>
+            )}
+            {estado === "cargando" ? t("form_enviando") : t("form_enviar")}
+          </button>
+          <div aria-live="polite" className="text-sm">
+            {estado === "cargando" && lento && <p className="text-gray-300">{t("form_lento")}</p>}
+          </div>
+        </div>
       </form>
 
-      {estado === "cargando" && lento && (
-        <p className="text-gray-500 mt-2">
-          El servidor se está despertando, puede tardar hasta un minuto. No cierres la página.
-        </p>
-      )}
-      {estado === "enviado" && (
-        <p className="text-green-600 mt-2">Mensaje enviado con éxito.</p>
-      )}
-      {estado === "error" && (
-        <p className="text-red-600 mt-2">
-          Hubo un error al enviar el mensaje. Inténtalo de nuevo en un momento.
-        </p>
-      )}
+      <div aria-live="polite">
+        {estado === "enviado" && (
+          <p className="mt-6 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-emerald-300">
+            {t("form_ok")}
+          </p>
+        )}
+        {estado === "error" && (
+          <p className="mt-6 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-red-300">
+            {t("form_error")}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
