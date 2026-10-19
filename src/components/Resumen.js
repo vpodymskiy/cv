@@ -11,7 +11,7 @@ const Entry = ({ title, children }) => (
 );
 
 const Column = ({ icon, title, children }) => (
-  <section className="md:w-1/2 w-full">
+  <section>
     <h3 className="section-title mt-0">
       {icon}
       {title}
@@ -23,7 +23,7 @@ const Column = ({ icon, title, children }) => (
 export const Resumen = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col md:flex-row gap-10">
+    <div className="flex flex-col gap-10 max-w-3xl">
       <Column icon={<IconExperience iconStyle="w-8 h-8 fill-hover-blue" />} title={t("experiencia")}>
         <Entry title="Soluciones Web 365 SL">
           <p className="mt-1 text-gray-200">{t("sw365_puesto")}</p>

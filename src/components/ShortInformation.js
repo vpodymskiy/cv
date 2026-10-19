@@ -6,7 +6,7 @@ import { IconLinkedin } from "./icons/IconLinkedin";
 import { IconMail } from "./icons/IconMail";
 
 const SOCIAL = [
-  { href: "mailto:vpodymskiy@icloud.com", label: "Email", Icon: IconMail, icon: "w-6 h-6" },
+  { href: "mailto:vpodymskiy@icloud.com", label: "Email", Icon: IconMail, icon: "w-6 h-6 translate-y-px" },
   {
     href: "https://www.linkedin.com/in/vladislav-podymskiy",
     label: "LinkedIn",
