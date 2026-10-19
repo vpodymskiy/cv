@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const API_URL = "https://cv-backend-wks3.onrender.com";
+const API_URL = "https://cv-backend-1080240364704.us-central1.run.app";
 const SLOW_AFTER_MS = 4000; // a partir de aquí avisamos de que el servidor se está despertando
-const TIMEOUT_MS = 90000; // Render puede tardar hasta ~1 min en despertar
+const TIMEOUT_MS = 30000; // Cloud Run arranca en unos segundos; el backend corta el SMTP a los 5 s
 
 export const Contacts = () => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ export const Contacts = () => {
   const [lento, setLento] = useState(false);
   const despertado = useRef(false);
 
-  // El backend está en el plan gratuito de Render y se duerme tras 15 min sin uso.
+  // El backend está en Cloud Run con min-instances=0 y se apaga cuando no hay tráfico.
   // Lo despertamos en cuanto el usuario empieza a rellenar el formulario,
   // para que al pulsar "Enviar" ya esté listo.
   const despertarServidor = () => {

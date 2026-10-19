@@ -33,7 +33,7 @@
   "bot_2": "Optimicé un informe de estadísticas: de 92 s a respuesta inmediata.",
   "bot_3": "Aceleré los envíos masivos a más de 200k destinatarios con escritura por lotes.",
   "api_titulo": "API REST para el formulario de contacto",
-  "api_1": "Validación de datos, envío por correo y tests; desplegada en Render con Docker.",
+  "api_1": "Validación de datos, envío por correo y tests; desplegada en Google Cloud Run con Docker.",
   "api_2": "Migrada a Java 25 y Spring Boot 4.",
   "web_titulo": "Esta web",
   "web_1": "Web personal en React con versión en español e inglés, desplegada en Vercel. El formulario de contacto usa la API de arriba.",
@@ -47,7 +47,7 @@
   "form_mensaje": "Mensaje",
   "form_enviar": "Enviar",
   "form_enviando": "Enviando...",
-  "form_lento": "El servidor se está despertando, puede tardar hasta un minuto. No cierres la página.",
+  "form_lento": "El servidor se está despertando, tardará unos segundos.",
   "form_ok": "Mensaje enviado con éxito.",
   "form_error": "Hubo un error al enviar el mensaje. Inténtalo de nuevo en un momento."
 }

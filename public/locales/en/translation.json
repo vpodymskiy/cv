@@ -33,7 +33,7 @@
   "bot_2": "Optimized a statistics report from 92 s to near-instant.",
   "bot_3": "Sped up bulk messaging to 200k+ recipients with batched database writes.",
   "api_titulo": "REST API for the contact form",
-  "api_1": "Input validation, email delivery and tests; deployed on Render with Docker.",
+  "api_1": "Input validation, email delivery and tests; deployed on Google Cloud Run with Docker.",
   "api_2": "Migrated to Java 25 and Spring Boot 4.",
   "web_titulo": "This website",
   "web_1": "Personal website in React with Spanish and English versions, deployed on Vercel. The contact form uses the API above.",
@@ -47,7 +47,7 @@
   "form_mensaje": "Message",
   "form_enviar": "Send",
   "form_enviando": "Sending...",
-  "form_lento": "The server is waking up, this can take up to a minute. Please don't close the page.",
+  "form_lento": "The server is waking up, this will take a few seconds.",
   "form_ok": "Message sent successfully.",
   "form_error": "Something went wrong while sending the message. Please try again in a moment."
 }
