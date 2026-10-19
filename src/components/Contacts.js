@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GoogleMapa } from "./GoogleMapa";
+// import { GoogleMapa } from "./GoogleMapa";
 
 const API_URL = "https://cv-backend-wks3.onrender.com";
 const SLOW_AFTER_MS = 4000; // a partir de aquí avisamos de que el servidor se está despertando
